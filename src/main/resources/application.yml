@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: course-search
+  elasticsearch:
+    uris: http://localhost:9200
+    connection-timeout: 10s
+    socket-timeout: 30s
