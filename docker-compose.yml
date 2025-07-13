@@ -7,17 +7,15 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
-      - bootstrap.memory_lock=true
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
     ports:
       - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
     networks:
-      - es-net
+      - elastic
+
+volumes:
+  esdata:
 
 networks:
-  es-net:
-    driver: bridge
+  elastic:
