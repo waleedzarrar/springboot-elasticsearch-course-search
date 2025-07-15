@@ -2,16 +2,17 @@ server:
   port: 8080
 
 spring:
-  application:
-    name: course-search-app
-
-  # Elasticsearch config
   elasticsearch:
     uris: http://localhost:9200
+    connection-timeout: 5s
+    socket-timeout: 10s
 
-  # MySQL config (optional; not used in this project)
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
   datasource:
-    url: jdbc:mysql://localhost:3306/courses_db/createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/courses_db
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -26,4 +27,5 @@ spring:
 
 logging:
   level:
-    org.springframework.data.elasticsearch: DEBUG
+    org.springframework.web: DEBUG
+    com.undoschool.course_search: DEBUG
