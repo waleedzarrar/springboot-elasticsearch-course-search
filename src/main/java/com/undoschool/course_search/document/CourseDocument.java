@@ -1,52 +1,39 @@
 package com.undoschool.course_search.document;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor; // Add this import
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor; // Add this import
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.CompletionField;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder // Keep this for convenient instance creation (e.g., in CourseDataLoader)
+@NoArgsConstructor // Explicit no-arg constructor for Jackson during deserialization
+@AllArgsConstructor // Constructor with all fields, works well with @Builder
+// @Document and @Setting are good for context, even if mappings are from JSON
 @Document(indexName = "courses")
+@Setting(settingPath = "static/es-settings.json")
 public class CourseDocument {
 
-    @Id
+    @Id // This annotation is primarily for Spring Data Elasticsearch's repository abstraction.
+        // For the low-level client, Jackson will just look for a field named "id" in _source.
     private String id;
-
-    @Field(type = FieldType.Text)
     private String title;
-
-    @Field(type = FieldType.Text)
     private String description;
-
-    @Field(type = FieldType.Keyword)
     private String category;
-
-    @Field(type = FieldType.Keyword)
     private String type;
-
-    @Field(type = FieldType.Text)
-    private String gradeRange;
-
-    @Field(type = FieldType.Integer)
     private Integer minAge;
-
-    @Field(type = FieldType.Integer)
     private Integer maxAge;
-
-    @Field(type = FieldType.Double)
     private Double price;
 
-    @Field(type = FieldType.Date)
+    // Ensure this format matches exactly how Elasticsearch stores the date after indexing
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime nextSessionDate;
 
-    @CompletionField // Keep it simple here, mapping is in DataLoader
-    private List<String> suggest;
+    private String[] suggest;
 }

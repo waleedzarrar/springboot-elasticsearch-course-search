@@ -1,0 +1,21 @@
+{
+  "properties": {
+    "id": { "type": "keyword" },
+    "title": { "type": "text", "analyzer": "search_analyzer" },
+    "description": { "type": "text", "analyzer": "search_analyzer" },
+    "category": { "type": "keyword" },
+    "type": { "type": "keyword" },
+    "minAge": { "type": "integer" },
+    "maxAge": { "type": "integer" },
+    "price": { "type": "double" },
+    "nextSessionDate": {
+      "type": "date",
+      "format": "yyyy-MM-dd'T'HH:mm:ss"
+    },
+    "suggest": {
+      "type": "completion",
+      "analyzer": "suggest_analyzer",  
+      "search_analyzer": "simple"      
+    }
+  }
+}
